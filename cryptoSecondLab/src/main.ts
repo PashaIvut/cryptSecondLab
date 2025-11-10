@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import sharp from 'sharp';
 // @ts-ignore
 import { LSBSteganography } from './lsb.ts';
