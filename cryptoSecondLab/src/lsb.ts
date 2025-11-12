@@ -1,6 +1,14 @@
 export class LSBSteganography {
   static embedMessage(imageData: any, message: string, payload: number = 1.0) {
     const capacity = imageData.width * imageData.height * 3;
+    const maxMessageBits = Math.floor(capacity * payload);
+    const encoder = new TextEncoder();
+    const messageBytes = encoder.encode(message);
+    const serviceBits = 32;
+    const requiredBits = serviceBits + 8 * messageBytes.length;
+    if (requiredBits > maxMessageBits) {
+      throw new Error(`Сообщение слишком длинное. Требуется ${requiredBits} бит, доступно ${maxMessageBits} бит`);
+    }
     const messageBits = this.textToBits(message);
     const stegoData = Buffer.from(imageData.data as ArrayLike<number>);
     let bitIndex = 0;
